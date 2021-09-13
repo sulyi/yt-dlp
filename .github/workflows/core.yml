@@ -1,5 +1,7 @@
 name: Core Tests
-on: [push, pull_request]
+on:
+  check_run:
+    types: [rerequested]
 jobs:
   tests:
     name: Core Tests
