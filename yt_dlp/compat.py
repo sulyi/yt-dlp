@@ -26,19 +26,19 @@ import xml.etree.ElementTree as etree
 from subprocess import DEVNULL
 
 try:
-    from Crypto.Cipher import AES as compat_AES
-    from Crypto.Util.Padding import pad as compat_pad, unpad as compat_unpad
+    from Crypto.Cipher import AES as compat_crypto_AES
+    from Crypto.Util.Padding import pad as compat_crypto_pad, unpad as compat_crypto_unpad
     compat_crypto_name = 'pycryptodome'
 except ImportError:
     try:
-        from Cryptodome.Cipher import AES as compat_AES
-        from Cryptodome.Util.Padding import pad as compat_pad, unpad as compat_unpad
+        from Cryptodome.Cipher import AES as compat_crypto_AES
+        from Cryptodome.Util.Padding import pad as compat_crypto_pad, unpad as compat_crypto_unpad
         compat_crypto_name = 'pycryptodomex'
     except ImportError:
-        compat_AES = None
+        compat_crypto_AES = None
         compat_crypto_name = None
-        compat_pad = None
-        compat_unpad = None
+        compat_crypto_pad = None
+        compat_crypto_unpad = None
 
 
 # HTMLParseError has been deprecated in Python 3.3 and removed in
@@ -204,7 +204,10 @@ compat_xml_parse_error = etree.ParseError
 # Set public objects
 
 __all__ = [
-    'compat_AES',
+    'compat_crypto_AES',
+    'compat_crypto_name',
+    'compat_crypto_pad',
+    'compat_crypto_unpad',
     'compat_HTMLParseError',
     'compat_HTMLParser',
     'compat_HTTPError',
@@ -239,7 +242,6 @@ __all__ = [
     'compat_numeric_types',
     'compat_ord',
     'compat_os_name',
-    'compat_pad',
     'compat_parse_qs',
     'compat_print',
     'compat_realpath',
@@ -252,7 +254,6 @@ __all__ = [
     'compat_struct_unpack',
     'compat_subprocess_get_DEVNULL',
     'compat_tokenize_tokenize',
-    'compat_unpad',
     'compat_urllib_error',
     'compat_urllib_parse',
     'compat_urllib_parse_quote',

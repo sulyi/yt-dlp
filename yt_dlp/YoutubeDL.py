@@ -30,7 +30,7 @@ from string import ascii_letters
 from zipimport import zipimporter
 
 from .compat import (
-    compat_AES,
+    compat_crypto_AES,
     compat_basestring,
     compat_crypto_name,
     compat_get_terminal_size,
