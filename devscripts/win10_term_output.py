@@ -5,7 +5,9 @@ from yt_dlp import YoutubeDL
 from yt_dlp.compat import WINDOWS_VT_MODE
 
 ydl = YoutubeDL()
-print('WINDOWS_VT_MODE:', WINDOWS_VT_MODE, '_vt_mode:', ydl._vt_mode)
+print('WINDOWS_VT_MODE:', WINDOWS_VT_MODE,
+      '_vt_mode:', ydl._vt_mode,
+      flush=True)
 
 size = os.get_terminal_size()
 for width in range(size.columns - 1, size.columns + 2):
