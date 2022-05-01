@@ -23,10 +23,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-2022]
-        run-command: [cmd.exe /c]
+        run-tests-ext: [bat]
         include:
         - os: ubuntu-18.04
-          run-command: sh -c
+          run-tests-ext: sh
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
@@ -36,7 +36,7 @@ jobs:
     - name: Install yt-dlp
       run: python setup.py install
     - name: Make output tests
-      run: {{ matrix.crun-command }} 'python devscripts/win10_term_output.py'
+      run: ./devscripts/term_output.${{ matrix.run-tests-ext }}
   flake8:
     name: Linter
     if: "!contains(github.event.head_commit.message, 'ci skip all')"
