@@ -3584,7 +3584,7 @@ class InfoExtractor:
         return res
 
     def _set_cookie(self, domain, name=None, value=None, expire_time=None, port=None,
-                    path='/', secure=False, discard=False, rest={}, length=2048, **kwargs):
+                    path='/', secure=False, discard=False, length=2048, **kwargs):
         """
         Add a compat_cookiejar_Cookie to cookie jar
 
@@ -3611,7 +3611,7 @@ class InfoExtractor:
         cookie = compat_cookiejar_Cookie(
             0, name, value, port, port is not None, domain, True,
             domain.startswith('.'), path, True, secure, expire_time,
-            discard, None, None, rest)
+            discard, None, None, rest=kwargs)
         self._downloader.cookiejar.set_cookie(cookie)
 
     def _get_cookies(self, url):
