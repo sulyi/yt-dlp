@@ -3583,8 +3583,31 @@ class InfoExtractor:
                 self.report_warning(msg)
         return res
 
-    def _set_cookie(self, domain, name, value, expire_time=None, port=None,
-                    path='/', secure=False, discard=False, rest={}, **kwargs):
+    def _set_cookie(self, domain, name=None, value=None, expire_time=None, port=None,
+                    path='/', secure=False, discard=False, rest={}, length=2048, **kwargs):
+        """
+        Add a compat_cookiejar_Cookie to cookie jar
+
+        If either or both `name` and `value` is `None` they are generated randomly
+        `length` is the amount of space randomly generated data can take up,
+        default is 2048 (half of space defined by RFC 6265)
+        """
+        if name is None or value is None:
+            do_both = name is None and value is None
+            usable = length - 0 if name is None else len(name) - 0 if value is None else len(value)
+            alnum = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+            # text: printable not in whitespace
+            name_set = '!#$%&\'*+-.^_`|~' + alnum  # in text not in '()<>@,;:"/[]?={}\\'
+            value_set = '!#$%&\'()*+-./:<=>?@[]^_`{|}~' + alnum  # in text not in '",;\\'
+            first_length = random.randint(1, usable - do_both)  # keep at least one byte for value
+            first = ''.join(random.choice(name_set) for _ in range(first_length))
+            if name is None:
+                name = first
+            else:
+                value = first
+            if do_both:
+                second_length = random.randint(1, usable - first_length)
+                value = ''.join(random.choice(value_set) for _ in range(second_length))
         cookie = compat_cookiejar_Cookie(
             0, name, value, port, port is not None, domain, True,
             domain.startswith('.'), path, True, secure, expire_time,
